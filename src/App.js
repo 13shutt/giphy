@@ -5,18 +5,14 @@ import Loader from './components/Loader'
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { GiphyFetch } from '@giphy/js-fetch-api'
-const gf = new GiphyFetch('Gxj4SH2RG6zmJtB97RTHjsJXsqfpgXpE')
-
 const App = () => {
 
   const [viewLoader, setViewLoader] = useState(true)
-  const [gifs, setGifs] = useState([])
 
-  const fetchGifs = async (offset) => {
-    const data = await gf.trending({ offset, limit: 10 })
-    await setGifs(data)
-    console.log('fetch gifs', data, gifs)
+  const fetchGifs = () => {
+    fetch('http://api.giphy.com/v1/gifs/trending?api_key=Gxj4SH2RG6zmJtB97RTHjsJXsqfpgXpE')
+      .then(response => response.json())
+      .then(jsondata => console.log(jsondata))
   }
 
   useEffect(() => {
@@ -28,14 +24,13 @@ const App = () => {
 
   return (
     <>
-      {console.log(gifs, "gifs")}
       <CssBaseline />
       {viewLoader ? 
-      <Loader/> :
-      <>
-        <Header />
-        <Giphy fetchGifs={gifs} />
-      </>
+        <Loader/> :
+        <>
+          <Header />
+          <Giphy />
+        </>
       }
     </>
   )
