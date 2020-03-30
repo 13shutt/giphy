@@ -8,11 +8,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const App = () => {
 
   const [viewLoader, setViewLoader] = useState(true)
+  const [gifs, setGifs] = useState([])
 
   const fetchGifs = () => {
-    fetch('http://api.giphy.com/v1/gifs/trending?api_key=Gxj4SH2RG6zmJtB97RTHjsJXsqfpgXpE')
+    fetch('http://api.giphy.com/v1/gifs/trending?api_key=Gxj4SH2RG6zmJtB97RTHjsJXsqfpgXpE&limit=1')
       .then(response => response.json())
-      .then(jsondata => console.log(jsondata))
+      .then(json => setGifs(json.data))
   }
 
   useEffect(() => {
@@ -25,13 +26,10 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      {viewLoader ? 
-        <Loader/> :
         <>
           <Header />
-          <Giphy />
+          <Giphy gifs={gifs} />
         </>
-      }
     </>
   )
 }
